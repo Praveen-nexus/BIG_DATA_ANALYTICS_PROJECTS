@@ -1,0 +1,332 @@
+UNRAVELING THE PANDEMIC: A COVID - 19 DATA CHRONICLE.
+---------------------------------------------------------------------------------------------------------------------------------
+Explain the logic behind your analysis:
+
+1.Covid Data for 2020-2022
+Vaccination
+The progression of vaccinations through time is depicted in a line graph to show the association between cumulative verified COVID-19 cases and mortality.
+The data points to a crucial turning point when immunizations start to affect the pandemic's course. 
+The need for vaccination campaigns is highlighted by the initial strong upward slope of cases and deaths that coincides with low immunization rates. 
+The effectiveness of vaccination in reducing the effects of the virus is seen by the apparent slowing in case and mortality curves as vaccination rates rise. 
+This analysis emphasizes how crucial vaccination campaigns are to containing the pandemic.
+Restictions
+An important finding can be drawn from examining the line graph showing gathering bans and public awareness programs in relation to the total number of verified COVID-19 cases.
+There is a discernible decrease in the number of confirmed cases when gathering limits are tightened and public awareness initiatives are stepped up. 
+This association shows that successful public education campaigns and the implementation and reinforcement of social distance-building measures are crucial to limiting the spread of the virus.
+These results stress the importance of public health initiatives in reducing the pandemic's effects and the necessity of ongoing awareness-raising and education campaigns.
+New cases world map
+The combination of a map and an area chart to display new confirmed and death cases by country provides a comprehensive view of the COVID-19 pandemic. 
+The map visually depicts the geographic distribution of cases, allowing quick identification of hotspots. 
+Meanwhile, the area chart complements the map by revealing temporal trends, showing the ebb and flow of new cases and deaths.
+This dynamic duo of visualizations empowers viewers to understand not only where outbreaks are occurring but also how the situation has evolved over time, aiding in strategic decision-making and resource allocation.
+-----------------*---------------------------*----------------------*--------------------*----------------------------------------*-----------------------------*--------------------------*---------------------------*---------------------
+2.Covid-19 Dashboard:
+	-Covid-19 Summary Country code Dashboard:
+	-To calculate cumulative confirmed ,cumulative Deceased, Cumulative Recovered Cases.	
+	-Mapping of Country code to show the Cumulative data of covid-19 
+	- GDP and Gender Covid-19 Dashboard:
+	-To show the  gender wise distrubtion of Covid-19 cases with respect country
+	- Impact of Covid-19 on GDP of Indiviual Country 
+---------------------*-------------------------------*----------------------*---------------------------------*-------------------------------*--------------------------------*-----------------------------*-------------------------
+3.Locations of Average Smoking and Deceased Hotspots Dashboard:
+ 	We can check for corrilations and high risk zones, and we can identify any spatial patterns or clusters, of each country 
+ 	We can check any trend in times, to identify periods with spikes in smoking and if at the same time there are spikes in number of Deceased.
+ 	We can cross check the highest cumulative deceased cases and recovered with the increase or decrease in smoking accross regions.
+  Population life Exceptancy vs Deceased Dashboard:
+	China then India, has the higherst population with a avg life-expectancy being 76 & 69. BUt the Number of New deceased is drastically different from approx 27k to 528k in India. 
+	While matching with the time series, we can find and conculte that COVID-19 cases arrises by bursts of time periods or there is some Infomation inconsistancies with China's Data.
+	Additionally the differece in Life Expectancy, also may indicate the haelth and well being of peopme in CHina being better
+
+On the line graph Titled Population Life Expectancy vs Deaseased, 
+average life expectancy and the number of new COVID-19 deaths, 
+an inverse correlation can be obsersved. 
+This could be due to 
+1) Greater number of pre-existing health conditions
+2) Vulnerable population 
+3) Discrepancies in testing and reporting practices.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Explanation of the queries:
+
+1. Covid Data for 2020-2022
+-WorldMap:
+To Generate a Map 
+Drag "longitude" to columns shelfs.
+Drag "lattitude" to row shelfs.
+Drag "SUM([New Confirmed])" to the Size label shelf.
+Drag "Location Key" to the Detail label shelf.
+Drag "Country Name" to the Detail label shelf.
+Drag "SUM([New Confirmed])" to the ToolTip label shelf.
+Drag "SUM([New Deceased])" to the ToolTip label shelf.
+
+-Restrictions:
+Drag "DATETRUNC('month', [Date])" to the Column shelf.
+Drag "SUM([Cumulative Confirmed])" to the Rows shelf.
+Drag "SUM([Public Information Campaigns])" to the Rows shelf use Dual Axis.
+Drag "SUM([Restrictions On Gatherings])" to the Rows shelf use Dual Axis.
+
+-Vaccination:
+Drag "DATETRUNC('month', [Date])" to the Column shelf.
+Drag "SUM([Cumulative Confirmed])" to the Rows shelf.
+Drag "SUM([Cumulative Deceased])" to the Rows shelf.
+Drag "SUM([Cumulative Persons Vaccinated])" to the Rows shelf use Dual Axis.
+Drag "SUM([Restrictions On Gatherings])" to the Rows shelf use Dual Axis.
+----------------*--------------------------*------------------------*---------------------------------*-------------------------------*------------------------------------*-----------------------------*----------------------
+2.Covid-19 Dashboard
+-Covid-19 Summary Country code dashboard:
+Drag "Measure Names" to the Column shelf
+Add "country" to Detail pane shelf.
+-World Map:
+To Generate a Map 
+Drag "lattitude" to columns shelfs.
+Drag "longitude" to row shelfs.
+Drag "country names" to the Text label shelf.
+Drag "country names" to the Detail pane shelf.
+-Cumulative Confirmed Cases:
+Drag "cumulative confirmed cases" to the Column shelf.
+Drag "country names" to the Rows shelf.
+Drag "cumulative confirmed " to the Text Label shelf.
+-Cumulative deceased cases:
+Drag "cumulative Deceased cases" to the Column shelf.
+Drag "country names" to the Rows shelf.
+Drag "cumulative Deceased cases " to the Text Label shelf.
+-Cumulative recovered cases:
+Drag "cumulative recovered cases" to the Column shelf.
+Drag "country names" to the Rows shelf.
+Drag "cumulative recovered cases " to the Text Label shelf.
+
+-GDP Impact Covid-19:
+Drag "Country name" to the Rows shelf.
+Drag "GDP per captia" to the Label shelf.
+Drag "GDP per captia" to the Text Label shelf.
+Add  "Country name" to filter.
+Add  "Date" to filter.
+Add  "GDP per captia" to filter
+GDP Measure changed to Average.
+
+-Gender distrubtion covid19:
+Drag "Country" to the Column shelf.
+Drag "Gender groups" to the Rows shelf.
+Drag "cumulative confirmed " to the Text Label shelf.
+Drag "Gender groups" to the color pane shelf.
+Add "Gender group" to filter.
+Create a calculated field to add Gender Group.
+-----------------*--------------------*------------------------------*-----------------------*----------------------------*----------------------------------*------------------------------*----------------------------*--------
+3.Locations of Average Smoking and Deceased Hotspots Dashboard and  Population life Exceptancy vs Deceased Dashboard:
+-World Map:
+To Generate a Location Map  of smoking and Deceased
+Drag "longitude" to columns shelfs.
+Drag "latitude" to row shelfs.
+Drag "latitude" to row shelfs. to have a dual axis display
+Drag "country names" to the Filters shelf.
+Add  "longitude" to Filters.
+In Latitude 1 
+
+Drag "cumulative_deceased" to the shape pane shelf.
+-Cumulative Confirmed Cases:
+Drag "cumulative_deceased" to the color pane shelf.
+
+In Latitude 2
+
+Drag "smoking_prevalence" to the siwe pane.
+Drag "subregion1_name" to the Tooltip pane
+Drag "subregion1_name" to the Tooltip pane
+Add  "MONTH(Date)" to Pages.
+SHOW FILTER  "MONTH(Date)" from the drop down of pages "MONTH(Date)".
+
+
+-Population Life Expectancy vs Deseased
+Drag "life-expectancy" to the columns
+Drag "Population" to the columns
+Select Dual axis from the  dropdown 
+Drag "New_deceased" to the columns
+Drag "Country" to the Rows
+Add  "Life_Expectancy" to Filters.
+Drag "Population" to the colors of the Population
+Change the color paletter to red-gold for avg.population
+
+
+-"Confluence of Health and Cases: Mapping Out-of-Pocket Expenditure with New Confirmed Cases Amid Comorbidity"  
+
+Drag "Comorbidity" to the columns
+Drag "Out-of-Pocket Expenditure" to the rows
+Drag "New_Confirmed" to the rows
+make the 2 rows into a dual axis
+
+1)Make the "Out-of-Pocket" Expenditure marks 
+	have tooltips of Out-of-Pocket
+	Drag "Smoking Prevalence" in Label
+	Drag "Country Name" to the details
+
+2)Make the "New Confirmed" marks 
+	Make the "Out-of-Pocket" Expenditure marks
+	Drag "Smoking Prevalence" in Label
+	Drag "Country Name" to the details
+
+Show the country name filter 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Joins executed for each visualization:
+1.
+New Positive Cases vs.New Deceased by Year (2020-2022),
+Cumulative Confirmed Cases and Deaths vs Cumulative Vaccinations and Balancing public information campaigns and gathering restrictions to combat cumulative confirmations:
+A world map is created to show the summary of COVID-19, including new confirmed and death cases.
+Two area charts were created to display new confirmed and deceased cases according to various months.
+A line chart showing the Y-axis represents (public information campaigns, restrictions on gathering, cumulative confirmation) and the x-axis represents month by year.
+A line chart showing the Y-axis represents cumulative confirmed, cumulative deceased, and cumulative persons vaccinated, and the x-axis represents month by year.
+-------------*-----------------*------------*-----------------------------*-------------------------*---------------------------*-------------------------------*----------------------------*--------------------------------*--
+2.
+Covid-19 Dashboard:
+A World Map is Created to show the summary of the Covid-19 summary
+A line chart is used to visualize the relationship between GDP and Covid-19 Cases,
+The x-axis represents GDP, the Y-axis representsthe number of Covid-19 cases.
+A Bar graph is used to show Gender wise distribution o fcovid-19 cases,TheThe x-axis represents GDP per captia, the Y-axis representsthe country of Covid-19 cases. 
+--------------*----------------*--------------*-----------------------*-------------------*------------------------*---------------------------------*-----------------------------------------*------------------------------*----
+3.
+Locations of Average Smoking and Deceased Hotspots Dashboard:
+	we used the geography table to extract Longitude & Latitude; Cumulative Deceased, new_deceased, new_confirmedand from Epidemiology table; country_name, subregion1_name, location_key,  from the Index Table; 
+	smoking_prevalence from Health table.
+
+ Population life Exceptancy vs Deceased Dashboard:
+	life_expectancy from health; new_deceased from Epidemiology;  country_name from the Index Table 
+	We excecuted a dual axis calculation on the line and bar chart, with the Y-axis being country name and the 2 X-axis being Average Life expanctancy & 
+	Average Population and the other chart with New Deceased and Y axis of Country Name.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQL code used for supplementary queries:
+
+#Query to fetch the data for Covid Data for (20-22) New Positive Cases vs.New Deceased by Year (2020-2022),
+Cumulative Confirmed Cases and Deaths vs Cumulative Vaccinations and Balancing public information campaigns and gathering restrictions to combat cumulative confirmations.
+/*
+select 
+E.date,
+I.location_key,
+I.country_name,
+E.new_confirmed,
+E.new_deceased,
+E.new_tested,
+E.cumulative_confirmed,
+E.cumulative_deceased,
+E.cumulative_tested,
+O.school_closing,
+O.workplace_closing,
+O.cancel_public_events,
+O.restrictions_on_gatherings,
+O.public_transport_closing,
+O.stay_at_home_requirements,
+O.restrictions_on_internal_movement,
+O.international_travel_controls,
+O.income_support,
+O.debt_relief,
+O.public_information_campaigns,
+O.testing_policy,
+O.contact_tracing,
+O.facial_coverings,
+O.vaccination_policy,
+V.cumulative_persons_fully_vaccinated,
+V.cumulative_persons_vaccinated,
+V.cumulative_vaccine_doses_administered,
+V.new_persons_fully_vaccinated,
+V.new_persons_vaccinated,
+V.new_vaccine_doses_administered
+from covid.CovidIndex I
+inner join covid.epidemiology E on E.location_key = I.location_key
+inner join covid.vaccinations V on V.location_key = I.location_key and V.date = E.date
+inner join covid.oxfordGovernmentResponse O on O.location_key = I.location_key and O.date = E.date;
+*/
+------------------------*---------------------------*------------------------------------------*------------------------------*---------------------------------*---------------------------*---------------------------
+# Query to fetch the data for Covid-19 Dashboard.
+/*
+select 
+C.location_key,
+C.country_code,
+C.country_name,
+EP.date,
+EP.new_confirmed,
+EP.new_deceased,
+EP.new_recovered,
+EP.new_tested,
+EP.cumulative_confirmed,
+EP.cumulative_deceased,
+EP.cumulative_recovered,
+EP.cumulative_tested,
+D.population_male,
+D.population_female,
+D.population,
+E.*
+from covidIndex C
+inner join epidemiology EP on EP.location_key = C.location_key
+inner join demographics D on D.location_key = C.location_key
+inner join economy E on E.location_key = D.location_key;
+*/
+-------------------------*----------------------------------*-----------------------------------*------------------------------*-----------------------*-------------------------------------*---------------------------------
+#Query to fetch the data for Locations of Average Smoking and Deceased Hotspots and Population life Exceptancy vs Deceased Dashboard. 
+/*
+select
+EP.date, 
+I.location_key,
+EP.cumulative_deceased,
+H.life_expectancy,
+EP.new_deceased,
+EP.new_confirmed, 
+H.pollution_mortality_rate, 
+H.out_of_pocket_health_expenditure_usd, 
+D.human_development_index, 
+E.gdp_per_capita_usd, 
+H.comorbidity_mortality_rate,
+H.health_expenditure_usd, 
+G.latitude, 
+G.longitude, 
+I.subregion1_name, 
+H.smoking_prevalence, 
+I.country_name.*
+From CovidIndex I
+inner Join Demographics D on D.Location_key = I.Location_key
+inner Join Epidemiology EP on EP.Location_key = I.Location_key
+Inner Join Health H on H.Location_key = I.Location_key
+Inner Join Geography G on G.Location_key = I.Location_key
+Inner Join Economy E on E.Location_key = I.Location_key;
+
+select D.population, I.Location_key
+From CovidIndex I
+inner Join Demographics D on D.Location_key = I.Location_key;
+*/
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-Overarching storyline:
+
+The storyboards are interconnected and provide a comprehensive view of different aspects of the COVID-19 pandemic. Here's how each story is linked to the others:
+Mapping COVID-19: 
+This storyboard sets the foundation by visualizing the spread of COVID-19 through maps and line graphs.
+It highlights the spike in cases from November 2021, which becomes a reference point for analyzing other stories.
+
+Tracking the Journey: 
+This storyboard builds upon the previous one by tracking the cumulative cases, deaths, and vaccinations over time.
+It shows the intersection point where cumulative vaccinations surpass cumulative cases, indicating progress in vaccination efforts.
+
+Balancing Public Information and Gathering Restrictions: 
+This storyboard explores the relationship between public information campaigns, gathering restrictions, and cumulative infections. 
+It reveals how both campaigns and restrictions increase but later drop, suggesting a potential impact on the spread of the virus.
+
+Regional Variations in Smoking Rates and COVID-19 Deaths: 
+This storyboard introduces the concept of regional variations in smoking rates and COVID-19 deaths. 
+By identifying hotspots and examining spatial patterns, it provides insights into potential correlations between smoking rates and COVID-19 mortality.
+
+GDP and Gender (COVID-19) Dashboard: 
+This storyboard focuses on the economic impact of COVID-19 (GDP) and the gender distribution of COVID-19 cases. 
+It aims to analyze the correlation between GDP impact and cumulative cases, deaths, and recoveries, as well as the relationship between out-of-pocket health expenditure and GDP impact.
+
+World Map of Smoking and Deceased Hotspots: 
+This storyboard expands on the regional variations in smoking rates and COVID-19 deaths by visualizing smoking and deceased hotspots on a world map. 
+It allows for the identification of spatial patterns and clusters, potentially revealing correlations between smoking rates and COVID-19 mortality.
+
+Higher Number of Deceased With Higher Population: 
+This storyboard focuses on the relationship between population, life expectancy, and the spread of COVID-19, specifically in China and India. 
+It highlights the differences in population, average life expectancy, and the number of new deceased cases between the two countries, indicating possible variations in health and well-being.
+
+
+ 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-Conclusion:
+In Conclusion, we start from the world map showing the biggest data of New confirmed and new deceased, then we analysis the tracks the different chosen indicators take cumulative vaccinations, deaths, cases, smoking. 
+Using multiple line graphs of the government measures to reduce the pandemic. Next, we analysed the cumulative data instead of the new confirmed and new deceased. 
+By specifically looking at the gender and the economic impact of the GDP per country name. In a more nuanced measure, we check the smoking on the co morbidity with the underlying life expectancy. 
+Lastly, we do a cost benefit analysis of the out-of-pocket expenditure and the mortality rate.
