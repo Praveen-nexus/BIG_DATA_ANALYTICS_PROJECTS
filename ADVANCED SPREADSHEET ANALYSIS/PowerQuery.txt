@@ -1,0 +1,23 @@
+let
+    Source = Table.NestedJoin(RawData_SmartPhone, {"model_id"}, RawData_Camera, {"model_id"}, "RawData_Camera", JoinKind.LeftOuter),
+    #"Merged Queries" = Table.NestedJoin(Source, {"model_id"}, RawData_Battery, {"model_id"}, "RawData_Battery", JoinKind.LeftOuter),
+    #"Reordered Columns" = Table.ReorderColumns(#"Merged Queries",{"model_id", "model", "brand_id", "brand_name", "price", "rating", "has_5g", "has_nfc", "has_ir_blaster", "processor_brand", "num_cores", "processor_speed", "RawData_Battery", "RawData_Camera"}),
+    #"Expanded RawData_Battery" = Table.ExpandTableColumn(#"Reordered Columns", "RawData_Battery", {"battery_capacity", "fast_charging_available", "fast_charging", "ram_capacity", "internal_memory", "screen_size", "refresh_rate", "resolution"}, {"battery_capacity", "fast_charging_available", "fast_charging", "ram_capacity", "internal_memory", "screen_size", "refresh_rate", "resolution"}),
+    #"Expanded RawData_Camera" = Table.ExpandTableColumn(#"Expanded RawData_Battery", "RawData_Camera", {"num_rear_cameras", "num_front_cameras", "os", "primary_camera_rear", "primary_camera_front", "extended_memory_available", "extended_upto"}, {"num_rear_cameras", "num_front_cameras", "os", "primary_camera_rear", "primary_camera_front", "extended_memory_available", "extended_upto"}),
+    #"Removed Columns" = Table.RemoveColumns(#"Expanded RawData_Camera",{"has_ir_blaster"}),
+    #"Replaced Value" = Table.ReplaceValue(#"Removed Columns",null,"others",Replacer.ReplaceValue,{"processor_brand"}),
+    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value",null,1,Replacer.ReplaceValue,{"processor_speed"}),
+    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1",null,0,Replacer.ReplaceValue,{"extended_upto"}),
+    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2",null,0,Replacer.ReplaceValue,{"fast_charging"}),
+    #"Changed Type" = Table.TransformColumnTypes(#"Replaced Value3",{{"price", Currency.Type}}),
+    #"Sorted Rows1" = Table.Sort(#"Changed Type",{{"brand_name", Order.Ascending}}),
+    #"Added Conditional Column" = Table.AddColumn(#"Sorted Rows1", "External_memory_option", each if [extended_memory_available] = 1 then true else if [extended_memory_available] = 0 then false else null),
+    #"Reordered Columns1" = Table.ReorderColumns(#"Added Conditional Column",{"model_id", "model", "brand_id", "brand_name", "price", "rating", "has_5g", "has_nfc", "processor_brand", "num_cores", "processor_speed", "battery_capacity", "fast_charging_available", "fast_charging", "ram_capacity", "internal_memory", "screen_size", "refresh_rate", "resolution", "num_rear_cameras", "num_front_cameras", "os", "primary_camera_rear", "primary_camera_front", "extended_memory_available", "External_memory_option", "extended_upto"}),
+    #"Sorted Rows" = Table.Sort(#"Reordered Columns1",{{"model_id", Order.Ascending}}),
+    #"Uppercased Text" = Table.TransformColumns(#"Sorted Rows",{{"os", Text.Upper, type text}}),
+    #"Added Prefix" = Table.TransformColumns(#"Uppercased Text", {{"price", each "€ " & Text.From(_, "en-GB"), type text}}),
+    #"Replaced Value4" = Table.ReplaceValue(#"Added Prefix",null,0,Replacer.ReplaceValue,{"rating"}),
+    #"Added Custom" = Table.AddColumn(#"Replaced Value4", "Total_num_cameras", each List.Sum([num_front_cameras], [num_rear_cameras])),
+    #"Removed Columns1" = Table.RemoveColumns(#"Added Custom",{"Total_num_cameras"})
+in
+    #"Removed Columns1"
