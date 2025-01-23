@@ -1,0 +1,263 @@
+---
+title: "Marketing Data Manual"
+author: "Praveen Subramani, Liam School, Anto Sibi Rayan Arivazhagan,"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  
+  html_document:
+    always_allow_html: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+library(readxl)
+library(scales)
+library(fmsb)
+library(reshape2)
+library(dplyr)
+library(tidyr)
+library(gridExtra)
+library(grid) 
+library(plotly)
+library(shiny)
+
+
+library(webshot)
+webshot::install_phantomjs()
+
+marketingDataMartShiny <- read_xlsx("C:/_BigDataCourses/0604 OpenSourceProgramming_R/GroupProject/FinalTerm_Work/ShinyApp/marketingDataMart_Final.xlsx")
+```
+
+
+
+## Description
+
+Utilizing raw data from Bwin Interactive Entertainment, AG, an internet betting service provider, this project aims to extract marketing insights by analyzing customer data encompassing various products/services like sports betting, poker, and casino games. The data includes summary statistics and detailed descriptions of gambling metrics retrieved from a longitudinal study conducted between February 1, 2005, and September 30, 2005. This study includes demographics, daily betting aggregations, and poker chip conversion datasets, providing a comprehensive view of user behavior during this period. The objective is to construct a Marketing datamart delineating key variables and metrics per user, visualizing these insights through a Shiny Application.
+
+*** 
+
+## Key Marketing Metrics
+
+Customer Tenure denotes the 
+Customer Tenure = closingDate - RegDate
+
+FrequencyBetting = TotalBets / CustomerTenure
+
+TransactionTypeRatio = NumberofBuyTrans / NumberofSellTrans
+
+Net Profit = TotalWinnings - TotalStakes
+
+WinRateBets = (TotalWinnings / TotalBets) * 100
+
+WinRateStakes = (TotalWinnings / TotalStakes) * 100
+
+AvgWinBets = TotalWinnings / TotalBets
+
+AvgWinStakes = TotalWinnings / TotalStakes
+
+Return on Investment = ((TotalWinnings - TotalStakes) / TotalStakes) * 100
+
+CustomerLifetimeValue = TotalWinnings - TotalStakes
+
+AverageSellTransValuePerCustomer = TotalTransAmountSell / NumberofSellTrans
+
+AverageBuyTransValuePerCustomer = TotalTransAmountBuy / NumberofBuyTrans
+
+CustomerActivityScore = (FrequencyBetting + FrequencyTransactions) / 2
+
+CustEngagementScore = (numberBets/customerTenure)*100)
+
+CustEngagementIndex = (CustEngagementScore+FrequencyBetting+FrequencyTransactions)/3
+
+Loyalty = (TotalWinnings - TotalStakes) / (CustomerTenure * FrequencyBetting)
+
+
+*** 
+
+## Gender Distribution
+
+A major proportion of users are male with 39059 of the users being men and 3588 being women.
+
+```{r gender_count_plot, echo=FALSE , warning=FALSE}
+
+# Count users for each gender
+gender_counts <- marketingDataMartShiny %>%
+  group_by(Gender_Label) %>%
+  summarise(UserCount = n())
+
+# Create a bar plot of Gender Distribution
+ggplot(gender_counts, aes(x = Gender_Label, y = UserCount, fill = Gender_Label)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Gender Distribution",
+       x = "Gender",
+       y = "Number of Users") +
+  theme_minimal()
+```
+
+## AvgWinBets based on Application Description
+
+Applications with the highest Average Win Bets
+1. Betandwin Poker
+2. Betandwin.com
+3. Balls of Fire
+4. Betoto.com
+5. BetEurope.com
+
+```{r AvgWinBets_plot, echo=FALSE , warning=FALSE}
+p <- plot_ly(marketingDataMartShiny, x = ~Application_Description, y = ~AvgWinBets, type = 'bar', color = ~Application_Description) %>%
+layout(title = "AvgWinBets based on Application Description",
+xaxis = list(title = "Application Description"),
+yaxis = list(title = "AvgWinBets"))
+p
+```
+
+## AvgWinStakes based on Application Description
+
+Applications with the highest Average Win Stakes
+1. Betandwin.com
+2. Betandwin Poker
+3. BetEurope.com
+4. Betoto.com
+5. Balls of Fire
+
+```{r AvgWinStakes_plot, echo=FALSE , warning=FALSE}
+p <- plot_ly(marketingDataMartShiny, x = ~Application_Description, y = ~AvgWinStakes, type = 'bar', color = ~Application_Description) %>%
+      layout(title = "AvgWinStakes based on Application Description",
+             xaxis = list(title = "Application Description"),
+             yaxis = list(title = "AvgWinStakes"))
+  
+p
+```
+
+## Customer Activity Score
+
+
+```{r CAS_plot, echo=FALSE , warning=FALSE}
+ p <- plot_ly(data = marketingDataMartShiny, x = ~CustomerActivityScore, y = ~Application_Description, type = "scatter", mode = "markers") %>%
+      layout(title = "Customer Activity Score vs. Application Description",
+             xaxis = list(title = "Customer Activity Score"),
+             yaxis = list(title = ""))
+    p
+```
+
+## Average Buy and Sell Transaction Value per Customer vs. First Active Date
+
+The graph reveals a positive correlation between customer tenure and average buy and sell transaction values. This indicates that long-standing poker players are more inclined to engage in substantial stakes.
+This trend could be attributed to factors like familiarity, trust, and reputation. Experienced players are more confident in the platform's reliability and may perceive larger stakes as opportunities to gain an edge. Their established position in the poker community often translates into larger bets.
+
+```{r AverageBuySell_plot, echo=FALSE , warning=FALSE}
+ #Set the minimum and maximum values for the y-axis
+  min_value <- 0
+  max_value <- 1000
+  
+  # Line chart of Average Buy and Sell Transaction Value per Customer vs. First Active Date
+  
+    p <- plot_ly(data = marketingDataMartShiny, x = ~FirstActiveDate) %>%
+      add_trace(y = ~AverageBuyTransValuePerCustomer, name = "Average Buy Transaction Value per Customer", type = "scatter", mode = "markers") %>%
+      add_trace(y = ~AverageSellTransValuePerCustomer, name = "Average Sell Transaction Value per Customer", type = "scatter", mode = "markers") %>%
+      layout(
+        title = "Average Buy and Sell Transaction Value per Customer vs. First Active Date",
+        xaxis = list(tickformat = "%Y-%m-%d"),
+        yaxis = list(title = "Average Transaction Value per Customer", range = c(min_value, max_value))
+      )
+  
+p
+```
+
+
+## Total Customer Tenure for Top 10 Countries
+
+The above graph gives the total customer tenure for top 10 countries. The customers with the highest tenure are from Germany whereas the Swiss have the lowest tenure
+
+```{r CustomerTen_plot, echo=FALSE , warning=FALSE}
+# Filter the data to include only the top 10 countries
+  top_10_countries <- marketingDataMartShiny %>%
+    group_by(Country_Name) %>%
+    summarise(TotalCustomerTenure = sum(CustomerTenure)) %>%
+    arrange(desc(TotalCustomerTenure)) %>%
+    top_n(10)
+
+  # Filter the data to include only the top 10 countries
+ 
+    top_10_countries <- marketingDataMartShiny %>%
+      group_by(Country_Name) %>%
+      summarise(TotalCustomerTenure = sum(CustomerTenure)) %>%
+      arrange(desc(TotalCustomerTenure)) %>%
+      top_n(10)
+    p  <- plot_ly(data = top_10_countries, x = ~Country_Name, y = ~TotalCustomerTenure, type = "bar") %>%
+      layout(
+        title = "Total Customer Tenure for Top 10 Countries",
+        xaxis = list(title = "Country Name"),
+        yaxis = list(title = "Total Customer Tenure"),
+        hovermode = "closest"
+      )
+  p
+```
+
+
+
+
+
+## Average Frequency Betting for Top 10 Countries
+
+This stacked bar chart shows how the top 10 countries differ in their preference for specific types of betting applications. It visualizes the categories of applications that are popular in each country, allowing us to see trends in app usage patterns and identify potential opportunities for marketing.
+
+```{r FrequencyBet_plot, echo=FALSE , warning=FALSE}
+ # Filter the data to include only the top 10 countries
+  top_10_countries_AvgFreq <- marketingDataMartShiny %>%
+    group_by(Country_Name) %>%
+    summarise(AverageFrequencyBetting = mean(FrequencyBetting, na.rm = TRUE)) %>%
+    arrange(desc(AverageFrequencyBetting)) %>%
+    top_n(10)
+
+  # Generate the bar plot using plotlyOutput() and renderPlotly()
+  
+    p  <- plot_ly(data = top_10_countries_AvgFreq, x = ~Country_Name, y = ~AverageFrequencyBetting, type = "bar") %>%
+      layout(
+        title = "Average Frequency Betting for Top 10 Countries",
+        xaxis = list(title = "Country Name"),
+        yaxis = list(title = "Average Frequency Betting"),
+        hovermode = "closest"
+      )
+  
+    p
+```
+
+
+
+
+
+## Stacked Bar Plot of Application Descriptions for Top 10 Countries
+
+This plot depicts the prevalence of apps utilized by individuals in the top 10 nations based on application category. The stacked bar provides insights into the distribution of distinct categories of apps across the top 10 nations. This plot can be used to recognize patterns in application usage across distinct nations and to identify potential opportunities for advertising and product development.
+
+```{r StackedBar_plot, echo=FALSE , warning=FALSE}
+ # Filter the data to include only the top 10 countries
+top_10_countriesTotalApp <- marketingDataMartShiny %>%
+  group_by(Country_Name) %>%
+  summarise(TotalApplications = n()) %>%
+  arrange(desc(TotalApplications)) %>%
+  top_n(10)
+
+# Create the summary table for count of Application Descriptions per country
+country_app_counts <- marketingDataMartShiny %>%
+  filter(Country_Name %in% top_10_countriesTotalApp$Country_Name) %>%
+  group_by(Country_Name, Application_Description) %>%
+  summarise(CountApplications = n()) %>%
+  arrange(Country_Name, desc(CountApplications))
+
+# Generate the stacked bar plot using plotlyOutput() and renderPlotly()
+p <- plot_ly(data = country_app_counts, x = ~Country_Name, y = ~CountApplications, type = "bar",
+            color = ~Application_Description) %>%
+  layout(
+    title = "Stacked Bar Plot of Application Descriptions for Top 10 Countries",
+    xaxis = list(title = "Country Name"),
+    yaxis = list(title = "Count of Application Descriptions"),
+    barmode = "stack",
+    hovermode = "closest"
+  )
+p
+
+```
