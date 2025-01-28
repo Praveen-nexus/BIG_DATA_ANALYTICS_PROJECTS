@@ -1,4 +1,4 @@
-**Recommendation Tools - Bullet Points:**  
+**Ingredient Recommendation System for Personalized Recipe Suggestions:**  
 
 1. **Led** the design of an ingredient recommender system using **Python, NLP (tokenization, stopword removal)**, and **collaborative filtering**, achieving a **95.1% F1 score** with User-Based Collaborative Filtering, outperforming 4 other models (IBCF, SVD, ALS, Co-Clustering) to deliver personalized user recommendations. *(Keywords: Python, NLP, Collaborative Filtering)*  
 
