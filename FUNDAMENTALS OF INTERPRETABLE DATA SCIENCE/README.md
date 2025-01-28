@@ -1,4 +1,4 @@
-**"Interpretable Machine Learning for Telecom Customer Churn Prediction: Enhancing Retention via SHAP, LIME, and Model Transparency"**
+**Interpretable Machine Learning for Telecom Customer Churn Prediction: Enhancing Retention via SHAP, LIME, and Model Transparency**
 
 1. **Engineered an interpretable churn prediction model** using logistic regression and SHAP/LIME analysis, achieving **73% accuracy** while maintaining model transparency to inform customer retention strategies for a telecom client. *(Keywords: Predictive Modeling, Logistic Regression, SHAP, Interpretability)*  
 
